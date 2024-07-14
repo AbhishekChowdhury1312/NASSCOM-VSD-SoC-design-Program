@@ -26,4 +26,9 @@ run_synthesis
 ### Find out percentage of D Flipflop:  
 percentage of d flip-flops = number of D flip-flops / total number of cells * 100  
 find out both the numbers of flip-flops and total cells from yosys_stat report; also it can be found from the generated text after running `run_synthesis` command in the openlane environment.  
-Now use the previous equation to find out the percentage of flip-flops present in the design.
+Now use the previous equation to find out the percentage of flip-flops present in the design.  
+
+
+
+
+# Day 2
