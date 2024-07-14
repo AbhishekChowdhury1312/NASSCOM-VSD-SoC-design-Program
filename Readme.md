@@ -32,3 +32,7 @@ Now use the previous equation to find out the percentage of flip-flops present i
 
 
 # Day 2
+## Topics Covered  
+- Core utilization factor and aspect ratio
+-
+- Ground bounce and voltage droop
