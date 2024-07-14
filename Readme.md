@@ -43,3 +43,10 @@ Now use the previous equation to find out the percentage of flip-flops present i
 - Core utilization factor and aspect ratio
 -
 - Ground bounce and voltage droop
+
+
+## Run Floorplan  
+`run_floorplan`  
+
+## To view floorplan
+`magic -T (tech_file path) lef read (lef_file path) def read (def_file path_file)`
