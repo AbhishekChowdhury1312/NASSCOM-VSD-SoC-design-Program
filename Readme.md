@@ -1,5 +1,5 @@
 # Day 1:
-##Topics covered:
+## Topics covered:
 - VLSI Physical Design flow
 - Introduction to RISC-V
 - Intoduction to OpenLane
