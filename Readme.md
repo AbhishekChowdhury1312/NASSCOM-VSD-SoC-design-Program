@@ -50,3 +50,8 @@ Now use the previous equation to find out the percentage of flip-flops present i
 
 ## To view floorplan
 `magic -T (tech_file path) lef read (lef_file path) def read (def_file path_file)`
+
+
+
+![Screenshot 2024-07-15 134743](https://github.com/user-attachments/assets/50c9420c-49a1-4e54-aca3-3030a3c1ee9b)
+
