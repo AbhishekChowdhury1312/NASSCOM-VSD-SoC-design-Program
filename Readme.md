@@ -49,9 +49,16 @@ Now use the previous equation to find out the percentage of flip-flops present i
 `run_floorplan`  
 
 ## To view floorplan
-`magic -T (tech_file path) lef read (lef_file path) def read (def_file path_file)`
+`magic -T (tech_file path) lef read (lef_file path) def read (floorplan.def_file path)`
 
 
 
 ![Screenshot 2024-07-15 134743](https://github.com/user-attachments/assets/50c9420c-49a1-4e54-aca3-3030a3c1ee9b)
 
+
+## placement
+`run_placement`  
+In global placement, main objective is to reduce the wire length. In openlane half parameter wire length concept is used. 
+
+`magic -T (tech_file path) lef read (lef_file path) def read (placement.def file's path)`
+* We will do power ground generation before routing and after CTS.
