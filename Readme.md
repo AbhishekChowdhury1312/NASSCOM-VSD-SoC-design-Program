@@ -63,6 +63,8 @@ In global placement, main objective is to reduce the wire length. In openlane ha
 `magic -T (tech_file path) lef read (lef_file path) def read (placement.def file's path)`
 * We will do power ground generation before routing and after CTS.
 
+![Screenshot 2024-07-15 160135](https://github.com/user-attachments/assets/e8420622-6386-4f0c-96ac-b76182120483)
+
 
 # Day 3
 ## Topics Covered
