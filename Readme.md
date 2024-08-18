@@ -72,3 +72,4 @@ In global placement, main objective is to reduce the wire length. In openlane ha
 -
 
 
+![Screenshot 2024-07-18 015705](https://github.com/user-attachments/assets/265adcd3-e244-41b0-a488-7a4ec082be69)
