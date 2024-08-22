@@ -88,9 +88,129 @@ In global placement, main objective is to reduce the wire length. In openlane ha
 -
 -
 
+
+## To watch floorplan:
+`magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def`
+
+We can see the pins are equidistant. Open openlane/configuration/floorplan.tcl file and find out the following command. If we wanna change pin distance, reset the associated variable.
+
 ## changing pin configuration 
-`set: env (FP_IO_MODE) 0
+`set: env (FP_IO_MODE) 0`
 
 
 
 ![Screenshot 2024-07-18 015705](https://github.com/user-attachments/assets/265adcd3-e244-41b0-a488-7a4ec082be69)
+
+
+
+
+## Spice simulation:
+4 steps:
+1. Create spice deck
+2. component values
+3. identify nodes
+4. name nodes
+
+## Some important notes:
+
+"*" is used for commenting.
+serial: drain, gate, source, substrate
+for example: 
+M1 out in vdd vdd pmos W=0.375u L=.25u
+Here, drain: out, gate: in,  source: vdd, substrate: vdd. Pmos indicates the device type. W and L indicates width and length of the device.
+
+M2 out in 0 0 nmos W=0.375u L=.25u
+Here, drain: out, gate: in,  source: 0, substrate: 0. Nmos indicates the device type. W and L indicates width and length of the device.
+
+### W/L ratio of pmos should be greater than nmos.
+
+cload out 0 10f [out & 0 are 2 nodes; 10f is the value]
+
+Vdd vdd 0 2.5
+Vin in 0 2.5
+
+### **Simulation commands**
+.op
+.dc Vin 0 2.5 0.05 [.05 is step]
+
+### **describe model file**
+.LIB "tsmc_025um_model.mod" CMOS_MODELS 
+.end
+
+## characteristics:
+
+switching threshold:
+where vin = vout
+Changing pmos:nmos changes threshold
+in threshold region, pmos and nmos both are kind of turned on and there's a high possibility leakage current which flows directly from power to ground.
+
+
+
+`magic -T sky130A.tech sky130_inv.mag &` 
+
+press 's' twice to see the connectivity
+
+`extract file into .ext file`
+`extract all`
+
+`ext2spice cthresh 0 rthresh 0`
+`ext2spice`
+
+extract parasitic components
+
+![Screenshot 2024-08-20 024610](https://github.com/user-attachments/assets/697ed2fb-abe6-4959-8569-dc3e3dfb6014)
+
+need to edit scale. To know the correct scale we open our design and select a grid. Then in TKcon window use the following command:
+`box`
+![Screenshot 2024-08-20 030046](https://github.com/user-attachments/assets/c34427bd-f0f3-43ce-9ffe-e03dce1f81c9)
+
+
+After making the edits,
+![Screenshot 2024-08-20 033041](https://github.com/user-attachments/assets/47a6b63e-bde4-4d0f-a41c-ce2fc4308035)
+
+
+To simulate the spice file use the following command:
+`ngspice sky130_inv.spice`
+
+![Screenshot 2024-08-20 033057](https://github.com/user-attachments/assets/d79fad61-f6a8-4ee3-bd59-f1217700cefb)
+
+We also can source the file after invoking the tool by the following command:
+`source sky130_inv.spice`
+
+We can see the output & input characteristic with respect to time by using following command.
+`plot y vs time a`
+here a is the input signal in the spice file. y is the output.
+
+![Screenshot 2024-08-20 034357](https://github.com/user-attachments/assets/c25113f7-4514-42c2-ad53-8e8de747de90)
+
+## Characteristics of the curve
+![Screenshot 2024-08-20 040720](https://github.com/user-attachments/assets/50e3dfa5-78cc-4dcc-bbfa-cd5a83e772fb)
+
+We can find rise transition, fall transition, cell fall delay, rise fall delay from this plot.
+
+### RISE TRANSITION:
+The time output curve takes to rise from 20% of the peak value to 80% of the peak value.
+
+20%: x0 = 2.23842e-09, y0 = 0.660008
+80%: x1 = 2.23842e-09, y1 = 2.64016
+So, rise transition = x1 - x0 =  2.23842e-09 - 2.23842e-09 = 
+### FALL TRANSITION:
+The time output curve takes to fall from 80% of the peak value to 20% of the peak value.
+
+80%: x0 = 4.05003e-09, y0 = 2.64
+20%: x1 = 4.09287e-09, y1 = 0.660024
+
+So, rise transition = x1 - x0 =  4.09287e-09 - 4.05003e-09
+
+### CELL FALL DELAY:
+PROPAGATION DELAY WHEN OUTPUT IS FALLING.
+x0 = 4.07481e-09, y0 = 1.65
+
+x0 = 4.05e-09, y0 = 1.65
+### CELL RISE DELAY:
+PROPAGATION DELAY WHEN OUTPUT IS FALLING:
+
+x0 = 2.20636e-09, y0 = 1.65
+
+x0 = 2.15e-09, y0 = 1.65
+
